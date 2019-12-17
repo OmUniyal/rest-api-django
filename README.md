@@ -1,3 +1,3 @@
 
-Profiles Rest API code, Udemy.
+Profiles Rest API code, a Udemy course project.
 
