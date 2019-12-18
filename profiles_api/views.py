@@ -13,6 +13,9 @@ from profiles_api import serializers
 #imported for viewsets
 from rest_framework import viewsets
 
+#imported for UserProfileViewSet
+from profiles_api import models
+
 
 #APIView class
 class HelloAPIView(APIView):
@@ -130,3 +133,15 @@ class HelloViewSets(viewsets.ViewSet):
         Handle deleting an object
         '''
         return Response({'http_method':'DELETE'})
+
+
+
+#Creating user profile viewset
+
+class UserProfileViewSet(viewsets.ModelViewSet):
+    '''
+    Handle creating and updating profiles
+    '''
+
+    serializer_class = serializers.UserProfileSerializer
+    queryset = models.UserProfile.objects.all()
