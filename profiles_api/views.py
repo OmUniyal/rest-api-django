@@ -5,10 +5,16 @@ from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
+
 # Added after creating serializer file in profiles_api application
 from rest_framework import status
 from profiles_api import serializers
 
+#imported for viewsets
+from rest_framework import viewsets
+
+
+#APIView class
 class HelloAPIView(APIView):
     '''
     Test API View
@@ -65,4 +71,62 @@ class HelloAPIView(APIView):
         Delete an object
         '''
         return Response({'method':'DELETE'})
-        
+
+#viewsets class
+class HelloViewSets(viewsets.ViewSet):
+    '''
+    Test API viewset
+    '''
+
+    def list(self, request):
+        '''
+        Return a hello message
+        '''
+        a_viewset = [
+            'uses actions (list, create, retrieve, update, partial_update, destroy)',
+            'automatically maps to URLs using routers',
+            'provides more functionality with less code',
+
+        ]
+
+        return Response({'message':'Hello!', 'a_viewset':a_viewset})
+
+    def create(self, request):
+
+        '''
+        create a new hello message
+        '''
+
+        serializer = self.serializer_class(data=request.data)
+
+        if serializer.is_valid():
+            name = serializer.validated_data.get('name')
+            message = f'Hello {name}!'
+
+            return Response({'message': message})
+        else:
+            return Response(serializer.errors, status = status.HTTP_400_BAD_REQUEST)
+    
+    def retrieve(self, request, pk=None):
+        '''
+        Handle getting an object by its id
+        '''
+        return Response({'http_method','GET'})
+
+    def update(self, request, pk=None):
+        '''
+        Handle updating an object
+        '''
+        return Response({'http_method':'PUT'})
+    
+    def partial_update(self, request, pk=None):
+        '''
+        Handle updating part of an object
+        '''
+        return Response({'http_method':'PATCH'})
+    
+    def destroy(self, request, pk=None):
+        '''
+        Handle deleting an object
+        '''
+        return Response({'http_method':'DELETE'})
