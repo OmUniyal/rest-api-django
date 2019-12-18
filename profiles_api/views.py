@@ -5,6 +5,10 @@ from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
+# Added after creating serializer file in profiles_api application
+from rest_framework import status
+from profiles_api import serializers
+
 class HelloAPIView(APIView):
     '''
     Test API View
@@ -23,3 +27,42 @@ class HelloAPIView(APIView):
         ]
 
         return Response({'message':'Hello!', 'an_apiview': an_apiview})
+    
+
+    #add serializer_class variable and write a post method to print "hello <name>"
+    serializer_class = serializers.HelloSerializer
+
+    def post(self, request):
+        '''
+        create hello message with the name input
+        '''
+
+        serializer = self.serializer_class(data = request.data)
+
+        if serializer.is_valid():
+            name = serializer.validated_data.get('name')
+            message = f'Hello {name}'
+
+            return Response({'message': message})
+        else:
+            return Response(serializer.errors, status = status.HTTP_400_BAD_REQUEST)
+    
+    def put(self, request, pk=None):
+        '''
+        Handle updating an object
+        '''
+        return Response({'method':'PUT'})
+    
+    def patch(self, request, pk = None):
+        '''
+        Handle a partial update of an object.
+        Only update fields that are provided in the request
+        '''
+        return Response({'method':'PATCH'})
+    
+    def delete(self, request, pk=None):
+        '''
+        Delete an object
+        '''
+        return Response({'method':'DELETE'})
+        
