@@ -3,6 +3,9 @@ from django.contrib.auth.models import AbstractBaseUser
 from django.contrib.auth.models import PermissionsMixin
 from django.contrib.auth.models import BaseUserManager
 
+#imported for adding new model item to store user's feed
+from django.conf import settings
+
 class UserProfileManager(BaseUserManager):
     '''
     Manager for user profiles
@@ -82,3 +85,22 @@ class UserProfile(AbstractBaseUser, PermissionsMixin):
         return self.email
 
 
+#ProfileFeedItem class
+
+class ProfileFeedItem(models.Model):
+    '''
+    profile status update
+    '''
+    user_profile = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete = models.CASCADE
+    )
+
+    status_text = models.CharField(max_length = 255)
+    created_on = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        '''
+        returns string representation of ProfileFeedItem model
+        '''
+        return self.status_text
