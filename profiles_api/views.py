@@ -16,6 +16,10 @@ from rest_framework import viewsets
 #imported for UserProfileViewSet
 from profiles_api import models
 
+#imported for adding permissions to UserProfileViewSet
+from rest_framework.authentication import TokenAuthentication
+from profiles_api import permissions
+
 
 #APIView class
 class HelloAPIView(APIView):
@@ -145,3 +149,7 @@ class UserProfileViewSet(viewsets.ModelViewSet):
 
     serializer_class = serializers.UserProfileSerializer
     queryset = models.UserProfile.objects.all()
+
+    #adding permissions to this ViewSet
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (permissions.UpdateOwnProfile,)
