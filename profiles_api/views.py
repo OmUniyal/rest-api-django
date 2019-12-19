@@ -20,6 +20,8 @@ from profiles_api import models
 from rest_framework.authentication import TokenAuthentication
 from profiles_api import permissions
 
+#imported to add search filter
+from rest_framework import filters
 
 #APIView class
 class HelloAPIView(APIView):
@@ -153,3 +155,7 @@ class UserProfileViewSet(viewsets.ModelViewSet):
     #adding permissions to this ViewSet
     authentication_classes = (TokenAuthentication,)
     permission_classes = (permissions.UpdateOwnProfile,)
+    
+    #Code for adding search filter
+    filter_backends = (filters.SearchFilter,)
+    search_fields = ('name','email',)
