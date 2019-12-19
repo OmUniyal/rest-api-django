@@ -23,6 +23,10 @@ from profiles_api import permissions
 #imported to add search filter
 from rest_framework import filters
 
+#imported to create login api viewset
+from rest_framework.authtoken.views import ObtainAuthToken
+from rest_framework.settings import api_settings
+
 #APIView class
 class HelloAPIView(APIView):
     '''
@@ -159,3 +163,11 @@ class UserProfileViewSet(viewsets.ModelViewSet):
     #Code for adding search filter
     filter_backends = (filters.SearchFilter,)
     search_fields = ('name','email',)
+
+#UserLogin class
+
+class UserLoginApiView(ObtainAuthToken):
+    '''
+    Handle creating user authentication tokens
+    '''
+    renderer_classes = api_settings.DEFAULT_RENDERER_CLASSES
